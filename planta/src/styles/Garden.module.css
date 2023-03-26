@@ -1,0 +1,154 @@
+.grid {
+    
+    border: 1px solid #727272;
+    width: 90vw;
+    height: 90vw;
+    cursor: pointer;
+}
+.addButton{
+    position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      font-size: 3.25rem;
+      cursor: pointer;
+      color: #729C5E;
+      background-color: white;
+      border-radius: 100%;
+      
+}
+.gridContainer {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: 5vw;
+}
+
+.square {
+    box-sizing: border-box;
+    border: 1px solid #727272;
+    width: 11.25vw;
+    height: 11.25vw;
+    float: left;
+}
+
+
+.toolContainer {
+    display: flex;
+    flex-direction: row;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.tool {
+    
+
+    display: flex;
+    flex-direction: column;
+    font-size: 24px;
+    text-align: center;
+    cursor: pointer;
+    flex-grow: 1;
+    padding: 1rem;
+    border: 1px solid #727272;
+    border-top: 0px;
+    border-bottom: 0px;
+    width: 1rem;
+
+} 
+
+.toolIcon {
+    font-size: 2.5rem;
+    color: #729C5E;
+    padding-bottom: .75rem;
+}
+
+.toolSelected {
+    background-color: #90BF7A;
+}
+
+.toolSelected svg {
+    color: black;
+
+}
+
+.selectTop {
+    border-top: 3px dashed aqua;
+    
+}
+
+.selectBottom{
+    border-bottom: 3px dashed aqua;
+    
+}
+
+.selectLeft {
+    border-left: 3px dashed aqua;
+    
+}
+
+.selectRight {
+    border-right: 3px dashed aqua;
+    
+}
+
+
+.paletteIcon{
+    font-size: 2.5rem;
+    padding-bottom: .75rem;
+}
+
+.palettePlant {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    cursor: pointer;
+    text-align: center;
+    align-content: center;
+    width: 3.5rem;
+    height: 4rem;
+    
+
+}
+
+.activePlant {
+
+    /* border: 3px solid #729C5E; */
+    border-radius: 10px;
+    box-shadow: 0 0 0 3px #729C5E;
+}
+
+.paletteInnerContainer{
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    margin: .75rem;
+    flex-grow: 1;
+    height: 10rem;
+    padding: .5rem;
+    
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    
+    
+
+}
+
+
+
+.paletteOuterContainer{
+    background-color: #90BF7A;
+    display: flex;
+    flex-direction: column;
+    margin-top: .5rem;
+    flex-grow: 1;
+}
+
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 7.3375rem);
+}

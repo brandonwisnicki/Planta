@@ -1,0 +1,49 @@
+
+  
+  .nav {
+      background-color: #90BF7A;
+      padding: 1rem;
+      padding-bottom: 0;
+
+  }
+
+  .nav a  {
+      color: white;
+  }
+
+  .logo {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 0.75rem;
+  
+  }
+
+  .navLinks {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+  }
+
+  .navLinks a {
+      text-decoration: none;
+      padding: .75rem;
+      margin: 0;
+      font-size: 24px;
+      color: black;
+    }
+    
+    .navLinks .active {
+        background-color: white;
+        border-radius: 1rem 1rem 0 0;
+    text-decoration: underline;
+
+  }
+
+  .info {
+      position: absolute;
+      top: .75rem;
+      right: .75rem;
+      font-size: 2rem;
+      cursor: pointer;
+  }
