@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faChevronLeft, faInfoCircle, faCirclePlus, faXmarkCircle, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-
+import { useRouter } from 'next/navigation';
 import {useLocalStorage} from '../../hooks/useLocalStorage';
 
 export default function Templates() {
@@ -13,9 +13,9 @@ export default function Templates() {
 const templates = [
     {
         name: "Flower Paradise",
-        image: "temp.png",
-        grid: [],
-        palette: []
+        image: "flowerparadise.png",
+        grid: [[2,1,2,1,2,1,2,7],[1,2,1,2,1,2,7,7],[2,1,2,1,2,7,7,2],[1,2,1,2,7,7,2,1],[2,1,2,7,7,2,1,2],[1,2,7,7,2,1,2,1],[2,7,7,2,1,2,1,2],[7,7,2,1,2,1,2,1]],
+        palette: [1,2,7]
     },
     {
         name: "Feeling Blue",
@@ -50,7 +50,7 @@ const templates = [
 ]
 
 
-
+const router = useRouter();
 
   const [palette, setPalette] = useLocalStorage("palette", [1,2,3]);
 
@@ -70,6 +70,7 @@ const selectTemplate = (t) => {
     setPalette(t.palette);
     setGardenGrid(t.grid);
     setCurrentId(t.palette[0]);
+    router.push('/garden')
 }
 
     return <>
