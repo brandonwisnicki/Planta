@@ -20,12 +20,12 @@ export default function handler(req, res) {
     {
       id: 2,
       name: "Tulip",
-      color: "#2400FF"
+      color: "#007FFF"
     },
     {
       id: 3,
       name: "Apple",
-      color: "#FF0000"
+      color: "#FF2E2E"
     },
     {
       id: 4,
@@ -46,6 +46,21 @@ export default function handler(req, res) {
       id: 7,
       name: "Path",
       color: "#727272"
+    },
+    {
+      id: 8,
+      name: "Sunflower",
+      color: "#f7ca00"
+    },
+    {
+      id: 9,
+      name: "Cactus",
+      color: "#b1cc33"
+    },
+    {
+      id: 10,
+      name: "Pond",
+      color: "#0000FF"
     }
   ]
 

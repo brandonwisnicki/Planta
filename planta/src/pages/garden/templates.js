@@ -42,10 +42,10 @@ const templates = [
         palette: []
     },
     {
-        name: "Happy Carrots",
-        image: "temp.png",
-        grid: [],
-        palette: []
+        name: "Fruits and Veggies",
+        image: "fruitsandveggies.png",
+        grid: [[4,4,4,4,7,4,4,4],[4,6,6,6,7,3,3,4],[4,6,6,6,7,3,3,4],[7,7,7,7,7,3,3,4],[4,3,3,7,7,7,7,7],[4,3,3,7,6,6,6,4],[4,3,3,7,6,6,6,4],[4,4,4,7,4,4,4,4]],
+        palette: [3,4,6,7]
     },
 ]
 
