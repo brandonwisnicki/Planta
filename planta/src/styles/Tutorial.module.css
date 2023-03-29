@@ -1,0 +1,97 @@
+.header{
+    background-color: #90BF7A;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+.header p {
+    font-size: 24px;
+    margin: 0;
+    padding-bottom: 1rem;
+}
+
+
+.tutorialImage{
+    width: 90vw;
+    padding: 5vw;
+    background-color: white;
+}
+
+.tutorialCaption{
+    text-align: center;
+    font-size: 24px;
+    padding: 2rem;
+    padding-bottom: 0rem;
+
+}
+
+.currentDot {
+    color: black;
+    padding-left: .5rem;
+    font-size: .75rem;
+}
+
+.inactiveDot {
+    color: #727272;
+    padding-left: .5rem;
+    font-size: .75rem;
+
+}
+
+.hiddenBtn {
+    visibility: hidden;
+}
+
+.dotContainer {
+
+}
+.footerContainer{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+.footerInnerContainer {
+    display: flex;
+    justify-content: space-evenly;
+    
+    padding-bottom: 2rem;
+}
+
+.directionalIcon {
+    font-size: 1.75rem;
+    cursor: pointer;
+}
+
+.tutorialBody {
+    background-color: #90BF7A;
+    height: calc(100vh - 152px);
+    
+}
+
+.btnContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    
+}
+
+.endBtns {
+    background-color: white;
+    padding: .5rem;
+    border-radius: 10px;
+    border: 2px solid #729C5E;
+    font-size: 24px;
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+}
+
+.endBtns svg {
+    color: #729C5E;
+    padding-right: 1.5rem;
+}

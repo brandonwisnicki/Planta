@@ -1,0 +1,132 @@
+.backIcon {
+    font-size: 1.75rem;
+    cursor: pointer;
+    color: black;
+    border-radius: 100%;
+    padding-right: .5rem;
+
+}
+
+.header{ 
+    display: flex;
+    padding: .5rem;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.desc{
+    padding-left: 2rem;
+    padding-right: 2rem;
+    color: #727272;
+
+}
+
+.headerTitle {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.headerTitle h1 {
+    margin: 0;
+}
+
+.image {
+    width: 90vw;
+    margin: 5vw;
+    text-align: center;
+    border-radius: 20px;
+    
+}
+
+
+.desc{
+    padding-left: 2rem;
+    padding-right: 2rem;
+    color: black;
+
+}
+
+.statContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.stat {
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    color: #727272;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 1rem;
+}
+
+.statIcon {
+    width: 4rem;
+    font-size: 2rem;
+    color: #729C5E;
+}
+
+.addButton {
+    border: 2px solid #729C5E;
+    border-radius: 10px;
+    font-size: 24px;
+    padding: .5rem;
+    cursor: pointer;
+    width: 12rem;
+    margin-top: 1rem;
+    margin-left: 12rem;
+    display: flex;
+    align-items: center;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.addButton span {
+    padding-left: .5rem;
+}
+
+.addButton svg {
+    color: #729C5E;
+    font-size: 30px;
+}
+
+.remButton {
+    border: 2px solid #f75654;
+    border-radius: 10px;
+    font-size: 24px;
+    padding: .5rem;
+    cursor: pointer;
+    width: 16rem;
+    margin-top: 1rem;
+    margin-left: 8rem;
+    display: flex;
+    align-items: center;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.remButton span {
+    padding-left: .5rem;
+}
+
+.remButton svg {
+    color: #f75654;
+    font-size: 30px;
+}

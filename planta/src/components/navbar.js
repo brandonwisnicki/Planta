@@ -9,6 +9,7 @@ import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 export default function NavBar() {
 
     const [activePage, setActivePage] = useState("garden");
+    const [hideNav, setHideNav] = useState(false)
     const router = useRouter()
 
     useEffect(() => {
@@ -21,6 +22,8 @@ export default function NavBar() {
         } else  if(router.pathname.includes("learn")){
             setActivePage("learn")
         }
+
+        setHideNav(router.pathname.includes("tutorial"))
     }, [router.pathname])
   return (
     <>
@@ -28,8 +31,9 @@ export default function NavBar() {
         <div className={styles.logo}>
 
         <>
-        {activePage === "garden" ?
-        <FontAwesomeIcon className={styles.info} icon={faCircleInfo} />
+        {(activePage === "garden" && !hideNav) ?
+        <Link href="/garden/tutorial"><FontAwesomeIcon className={styles.info} icon={faCircleInfo} />
+        </Link>
         : <> </>}
         </>
         <Image
@@ -41,13 +45,13 @@ export default function NavBar() {
                 priority
               />
               </div>
-      <div className={styles.navLinks}>
+      {!hideNav && <div className={styles.navLinks}>
           <Link href="/todo" className={activePage === "todo" ? styles.active : null}>To Do</Link>
           <Link href="/garden" className={activePage === "garden" ? styles.active : null}>My Garden</Link>
 
           <Link href="/learn" className={activePage === "learn" ? styles.active : null}>Learn</Link>
-      </div>
-      </div>
+      </div>}
+  </div> 
     </>
   )
 }

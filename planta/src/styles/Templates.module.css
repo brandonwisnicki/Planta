@@ -1,0 +1,59 @@
+.backIcon {
+    font-size: 1.75rem;
+    cursor: pointer;
+    color: black;
+    border-radius: 100%;
+    padding-right: .5rem;
+
+}
+
+.header{ 
+    display: flex;
+    padding: .5rem;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.desc{
+    padding-left: 2rem;
+    padding-right: 2rem;
+    color: #727272;
+
+}
+
+.headerTitle {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.headerTitle h1 {
+    margin: 0;
+}
+
+
+.templateContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+.template {
+    font-size: 1.25rem;
+    padding-top: 2rem;
+    cursor: pointer;
+}
+
+.template p {
+    margin-top: 0;
+}
+
+.template img {
+    width: 9rem;
+}

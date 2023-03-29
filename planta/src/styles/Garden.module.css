@@ -28,7 +28,7 @@
 
 .square {
     box-sizing: border-box;
-    border: 1px solid #727272;
+    border: 1px solid #72727255;
     width: 11.25vw;
     height: 11.25vw;
     float: left;
@@ -96,28 +96,31 @@
 
 
 .paletteIcon{
-    font-size: 2.5rem;
-    padding-bottom: .75rem;
+    /* font-size: 2.5rem; */
+    /* padding-bottom: .75rem; */
+    
 }
 
 .palettePlant {
     display: flex;
     flex-direction: column;
+    align-items: center;
     padding: 1rem;
     cursor: pointer;
     text-align: center;
     align-content: center;
-    width: 3.5rem;
+    width: calc(3.5rem - 3px);
     height: 4rem;
-    
+    border: 3px solid transparent;
+
 
 }
 
 .activePlant {
 
-    /* border: 3px solid #729C5E; */
+    border: 3px solid #729C5E;
     border-radius: 10px;
-    box-shadow: 0 0 0 3px #729C5E;
+    /* box-shadow: 0 0 0 3px #729C5E; */
 }
 
 .paletteInnerContainer{
@@ -137,6 +140,11 @@
 
 }
 
+.nopalettewarning{
+    color: #727272;
+    text-align: center;
+    padding-top: 3.5rem
+}
 
 
 .paletteOuterContainer{

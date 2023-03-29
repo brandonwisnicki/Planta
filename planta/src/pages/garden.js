@@ -1,73 +1,30 @@
 
 
 import styles from '@/styles/Garden.module.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Link from "next/link";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faSeedling, faPaintBrush, faObjectGroup, faFillDrip, faEraser, faXmark, faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import {useLocalStorage} from '../hooks/useLocalStorage';
 
+import CustomIcon from "../components/customicon";
 
 export default function Garden() {
 
 
-  const plants = [
-
-    {
-      id: 0,
-      name: "Empty",
-      color: "#FFFFFF"
-    },
-
-    {
-      id: 1,
-      name: "Rose",
-      color: "#FF9797"
-    },
-    {
-      id: 2,
-      name: "Tulip",
-      color: "#2400FF"
-    },
-    {
-      id: 3,
-      name: "Apple",
-      color: "#FF0000"
-    },
-    {
-      id: 4,
-      name: "Carrot",
-      color: "#FF7A00"
-    },
-    {
-      id: 5,
-      name: "Pepper",
-      color: "#287E00"
-    },
-    {
-      id: 6,
-      name: "Lemon",
-      color: "#FFE900"
-    },
-    {
-      id: 7,
-      name: "Path",
-      color: "#727272"
-    },
-
-  ]
+  const [plants, setPlants] = useState({});
 
 
+  const [palette, setPalette] = useLocalStorage("palette", [1,2,3]);
 
-
-
-  const [palette, setPalette] = useState([1, 2, 3,4,5,6,7,1,2,3,4]);
-
-  const [gardenGrid, setGardenGrid] = useState([[0, 0, 0, 0, 0, 0, 0, 0],
+  const [gardenGrid, setGardenGrid] = useLocalStorage("grid", [
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 1, 0, 0, 0, 0],
-  [0, 0, 0, 1, 0, 0, 0, 0],
-  [0, 0, 1, 0, 1, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0]]);
@@ -76,9 +33,9 @@ export default function Garden() {
 
   const [isMouseDown, setIsMouseDown] = useState(false);
 
-  const [currentTool, setCurrentTool] = useState("paint");
+  const [currentTool, setCurrentTool] = useLocalStorage("tool", "paint");
 
-  const [currentId, setCurrentId] = useState(1);
+  const [currentId, setCurrentId] = useLocalStorage("currplant", 1);
 
 
   const [selectX0, setSelectX0] = useState(-1);
@@ -87,12 +44,29 @@ export default function Garden() {
   const [selectY1, setSelectY1] = useState(-1);
 
 
+
+
+  useEffect(() => {
+   
+    const fetchData = async () => {
+      const res = await fetch("/api/data");
+      const data = await res.json();
+      setPlants(data['plants']);
+    }
+
+    fetchData();
+
+  }, [])
+
   const updatePlant = (id) => {
     setCurrentId(id)
   }
 
   const getColor = (id) => {
-    return plants[id].color;
+    if(plants[id]){
+      return plants[id].color;
+    }
+    return "#FFFFFF";
   }
 
   const cellMouseDown = (x, y) => {
@@ -283,8 +257,9 @@ export default function Garden() {
 
   return <>
 
-<FontAwesomeIcon className={styles.addButton} icon={faCirclePlus} />
-
+    <Link href="/garden/palette-chooser">
+    <FontAwesomeIcon className={styles.addButton} icon={faCirclePlus} />
+    </Link>
     <div className={styles.pageContainer}>
 
       <div className={styles.gridContainer}
@@ -294,7 +269,7 @@ export default function Garden() {
       >
         <div className={styles.grid}>
           {
-            gardenGrid.map((row, y) => {
+            gardenGrid && gardenGrid.map((row, y) => {
 
               return <>
                 {
@@ -367,8 +342,17 @@ export default function Garden() {
 
       <div className={styles.paletteOuterContainer}>
         <div className={styles.paletteInnerContainer}>
+
+        {(!palette || palette.length === 0) && <p className={styles.nopalettewarning}>
+          You don't have any plants in your palette. You can add plants with the (+) button.
+          </p>}
+
           {
-            palette.map(id =>{
+            palette && palette.map(id =>{
+
+              if(id < 1){
+                return <> </>
+              }
 
               return <div
               
@@ -377,13 +361,13 @@ export default function Garden() {
               className={styles.palettePlant + " " +
               (id === currentId ? styles.activePlant : "")}>
 
-                <FontAwesomeIcon className={styles.paletteIcon} 
-                style={{
-                  color: plants[id].color
-                }}
-                icon={faSeedling} />
+                <CustomIcon className={styles.paletteIcon} 
+                
+                color={getColor(id)}
+                
+                icon={plants[id]?.name}/>
 
-                {plants[id].name}
+                {plants[id]?.name}
 
                 </div>
 
