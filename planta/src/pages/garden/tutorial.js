@@ -21,20 +21,42 @@ export default function Tutorial () {
         },
         {
             image: "2.png",
-            text: "...and perfect! What a masterpiece. This tool will help plan out exactly how you want your garden to look, so you don’t have to."
+            text: "...and perfect! What a masterpiece. This tool will help plan out exactly how you want your garden to look."
         },
         {
             image: "3.png",
-            text: "You have lots of tools to help you design your garden exactly as you’d like it. All you have to do is tap on the right tool and a plant from your palette. You can add all sorts of different plants to your palette with the + icon."
+            text: "You have lots of tools to help you design your garden exactly as you'd like it. All you have to do is tap on the right tool and a plant from your palette. You can add all sorts of different plants to your palette with the + icon."
         },
         {
             image: "3.png",
-            text: "Looks like you’re ready to start designing the perfect garden! Would you like to get start with a premade garden template or start from scratch?",
+            text: "Looks like you're ready to start designing the perfect garden! Would you like to get start with a premade garden template or start from scratch?",
             offboardingControls: true,
         }
 
 
     ]
+
+    const plantSlides = [
+        {
+            image: "1.png",
+            text: "This is your garden layout. Each grid is a place where you can put any kind of plant. This will help you design large, beautiful gardens"
+        },
+        {
+            image: "2.png",
+            text: "...and perfect! What a a beautiful garden. This tool will help plan out exactly how you want your garden to look."
+        },
+        {
+            image: "3plant.png",
+            text: "You have lots of gardening tools to help you design your garden exactly as you'd like it. All you have to do is tap on a tool and a plant from your seed box. You can add all sorts of different plants to your seed box with the + icon."
+        },
+        {
+            image: "3plant.png",
+            text: "Looks like you're ready to start designing the perfect garden! Would you like to get start with a premade garden template or start from scratch?",
+            offboardingControls: true,
+        }
+    ]
+
+    const [experiment, setExperiment] = useLocalStorage("experiment", "paint"); // paint or plant
 
 
     const advance = () => {
@@ -55,10 +77,10 @@ export default function Tutorial () {
 
     <img 
     className={styles.tutorialImage}
-    src={`/tutorial_images/${slides[currentSlide].image}`}/>
+    src={`/tutorial_images/${experiment === "paint" ?  slides[currentSlide].image : plantSlides[currentSlide].image}`}/>
 
     <div className={styles.tutorialCaption}>
-        <p>{slides[currentSlide].text}</p>
+        <p>{experiment === "paint" ? slides[currentSlide].text : plantSlides[currentSlide].text}</p>
     </div>
 
 {slides[currentSlide].offboardingControls && <div className={styles.btnContainer}>

@@ -13,6 +13,9 @@ export default function PlantInfo() {
 
   const router = useRouter();
 
+  const [experiment, setExperiment] = useLocalStorage("experiment", "paint"); // paint or plant
+
+
   const [plant, setPlantData] = useState({
     id: 0,
     name: "",
@@ -99,14 +102,14 @@ export default function PlantInfo() {
     </div>
 
    {palette && !palette.includes(parseInt(router.query.plantid)) ?
-     <div className={styles.addButton} onClick={addToPalette}>
+     <div className={experiment === "paint" ? styles.addButtonPaint : styles.addButton} onClick={addToPalette}>
       <FontAwesomeIcon icon={faPlus} />
-      <span>Add to Garden</span>
+      <span>Add to {experiment === "paint" ? "Palette" : "Seed Box"}</span>
     </div>
 :
-<div className={styles.remButton} onClick={removeFromPalette}>
+<div className={experiment === "paint" ? styles.remButtonPaint : styles.remButton} onClick={removeFromPalette}>
       <FontAwesomeIcon icon={faXmark} />
-      <span>Remove from Palette</span>
+      <span>Remove from {experiment === "paint" ? "Palette" : "Seed Box"}</span>
     </div>
 } 
 

@@ -23,6 +23,9 @@ export default function PaletteChooser() {
 
     const [timestamp, setTimestamp] = useState(new Date());
 
+
+    const [experiment, setExperiment] = useLocalStorage("experiment", "paint"); // paint or plant
+
     useEffect(() => {
 
     
@@ -71,7 +74,7 @@ export default function PaletteChooser() {
             <FontAwesomeIcon className={styles.searchIcon} icon={faMagnifyingGlass} />
         </div>
     </div>
-    <p className={styles.desc}>Explore all different kinds of plants and add a plant to your garden palette. Adding a plant allows you to put it in your garden design. </p>
+    <p className={styles.desc}>Explore all different kinds of plants and add a plant to your garden {experiment === "paint" ? "palette": "seed box"}. Adding a plant allows you to put it in your garden design. </p>
     
 
     <ul className={styles.list}>

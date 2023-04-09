@@ -10,12 +10,17 @@ import { faSeedling, faPaintBrush, faObjectGroup, faFillDrip, faEraser, faXmark,
 import {useLocalStorage} from '../hooks/useLocalStorage';
 
 import CustomIcon from "../components/customicon";
+import { faDiceD20 } from '@fortawesome/free-solid-svg-icons';
+import { faDiceSix } from '@fortawesome/free-solid-svg-icons';
+import { faPersonDigging } from '@fortawesome/free-solid-svg-icons';
 
 export default function Garden() {
 
 
   const [plants, setPlants] = useState({});
 
+
+  const [experiment, setExperiment] = useLocalStorage("experiment", "paint"); // paint or plant
 
   const [palette, setPalette] = useLocalStorage("palette", [1,2,3]);
 
@@ -57,6 +62,40 @@ export default function Garden() {
     fetchData();
 
   }, [])
+
+
+  
+
+
+  const getExperimentData = (element) => {
+    if(experiment === "paint"){
+      const paintElements = {
+        "paintIcon": faPaintBrush,
+        "fillIcon": faFillDrip,
+        "eraseIcon": faEraser,
+        "paintLabel": "Paint",
+        "fillLabel": "Fill",
+        "eraseLabel": "Erase",
+        "paletteLabel": "palette"
+      };
+      
+      return paintElements[element];
+    } else if(experiment === "plant"){
+      const plantElements = {
+        "paintIcon": faSeedling,
+        "fillIcon": faDiceSix, // faBraille
+        "eraseIcon": faPersonDigging,
+        "paintLabel": "Plant",
+        "fillLabel": "Drifts",
+        "eraseLabel": "Uproot",
+        "paletteLabel": "seed box"
+      }
+      
+      return plantElements[element];
+    } else {
+      return <></>
+    }
+  }
 
   const updatePlant = (id) => {
     setCurrentId(id)
@@ -254,8 +293,19 @@ export default function Garden() {
     return " " + (currentTool === tool ? styles.toolSelected : "")
   }
 
+  const toggleExperiment = (e) => {
+    
+    setExperiment(experiment === "paint" ? "plant" : "paint")
+  }
 
   return <>
+
+    <div>
+    <label className={styles.switch}>
+      <input  type="checkbox" onChange={toggleExperiment}/>
+      <span className={styles.slider}></span>
+    </label>
+    </div>
 
     <Link href="/garden/palette-chooser">
     <FontAwesomeIcon className={styles.addButton} icon={faCirclePlus} />
@@ -284,7 +334,16 @@ export default function Garden() {
                         {
                           backgroundColor: getColor(e)
                         }
-                      } className={styles.square + selectStyling(x, y)}></div>
+                      } className={styles.square + selectStyling(x, y) + " " + styles.gridIcon}>
+
+                        
+                          <CustomIcon className={styles.gridIcon} 
+                            grid={true}
+                            color={"white"}
+                            
+                            icon={plants[e]?.name}/>
+
+                      </div>
                   })
                 }
               </>
@@ -318,25 +377,27 @@ export default function Garden() {
         <div
           onClick={() => updateTool("paint")}
           className={styles.tool + toolStyling("paint")}>
-          <FontAwesomeIcon className={styles.toolIcon} icon={faPaintBrush} />
+          <FontAwesomeIcon className={styles.toolIcon} icon={getExperimentData("paintIcon")} />
 
-        Paint
+        {getExperimentData("paintLabel")}
       </div>
         <div
           onClick={() => updateTool("fill")}
 
           className={styles.tool + toolStyling("fill")}>
-          <FontAwesomeIcon className={styles.toolIcon} icon={faFillDrip} />
+          <FontAwesomeIcon className={styles.toolIcon} icon={getExperimentData("fillIcon")} />
 
-        Fill
+          {getExperimentData("fillLabel")}
+
       </div>
         <div
           onClick={() => updateTool("erase")}
 
           className={styles.tool + toolStyling("erase")}>
-          <FontAwesomeIcon className={styles.toolIcon} icon={faEraser} />
+          <FontAwesomeIcon className={styles.toolIcon} icon={getExperimentData("eraseIcon")} />
 
-        Erase
+          {getExperimentData("eraseLabel")}
+
       </div>
       </div>
 
@@ -344,7 +405,7 @@ export default function Garden() {
         <div className={styles.paletteInnerContainer}>
 
         {(!palette || palette.length === 0) && <p className={styles.nopalettewarning}>
-          You don't have any plants in your palette. You can add plants with the (+) button.
+          You don't have any plants in your {getExperimentData("paletteLabel")}. You can add plants with the (+) button.
           </p>}
 
           {

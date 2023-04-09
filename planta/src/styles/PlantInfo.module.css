@@ -75,7 +75,7 @@
     color: #729C5E;
 }
 
-.addButton {
+.addButtonPaint {
     border: 2px solid #729C5E;
     border-radius: 10px;
     font-size: 24px;
@@ -94,16 +94,35 @@
     user-select: none;
 }
 
-.addButton span {
+.addButton {
+    border: 2px solid #729C5E;
+    border-radius: 10px;
+    font-size: 24px;
+    padding: .5rem;
+    cursor: pointer;
+    width: 14rem;
+    margin-top: 1rem;
+    margin-left: 10rem;
+    display: flex;
+    align-items: center;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.addButton span, .addButtonPaint span {
     padding-left: .5rem;
 }
 
-.addButton svg {
+.addButton svg, .addButtonPaint svg {
     color: #729C5E;
     font-size: 30px;
 }
 
-.remButton {
+.remButtonPaint {
     border: 2px solid #f75654;
     border-radius: 10px;
     font-size: 24px;
@@ -122,11 +141,40 @@
     user-select: none;
 }
 
+
+.remButton {
+    border: 2px solid #f75654;
+    border-radius: 10px;
+    font-size: 24px;
+    padding: .5rem;
+    cursor: pointer;
+    width: 18rem;
+    margin-top: 1rem;
+    margin-left: 6rem;
+    display: flex;
+    align-items: center;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 .remButton span {
     padding-left: .5rem;
 }
 
 .remButton svg {
+    color: #f75654;
+    font-size: 30px;
+}
+
+.remButtonPaint span {
+    padding-left: .5rem;
+}
+
+.remButtonPaint svg {
     color: #f75654;
     font-size: 30px;
 }
