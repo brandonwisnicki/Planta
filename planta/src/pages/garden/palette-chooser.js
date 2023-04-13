@@ -32,7 +32,12 @@ export default function PaletteChooser() {
         const fetchData = async () => {
           const res = await fetch("/api/data");
           const data = await res.json();
-          setPlants(data['plants']);
+          setPlants(data['plants'].sort(function(a, b) {
+            a = a.name.toLowerCase();
+            b = b.name.toLowerCase();
+          
+            return (a < b) ? -1 : (a > b) ? 1 : 0;
+          }));
         }
         fetchData();
         
@@ -85,7 +90,7 @@ export default function PaletteChooser() {
             return <></>
           }
 
-        return <> <li key={idx} className={styles.listItem}>
+        return <> <li key={p.id} className={styles.listItem}>
               {p.name} 
 
             <div>

@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { faSeedling, faPaintBrush, faObjectGroup, faFillDrip, faEraser, faXmark, faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { faSeedling, faPaintBrush, faObjectGroup, faFillDrip, faEraser, faXmark, faCirclePlus, faXmarkCircle, faPalette } from "@fortawesome/free-solid-svg-icons";
 import {useLocalStorage} from '../hooks/useLocalStorage';
 
 import CustomIcon from "../components/customicon";
@@ -47,6 +47,9 @@ export default function Garden() {
   const [selectY0, setSelectY0] = useState(-1);
   const [selectX1, setSelectX1] = useState(-1);
   const [selectY1, setSelectY1] = useState(-1);
+
+  const [lastX, setLastX] = useState(-1);
+  const [lastY, setLastY] = useState(-1);
 
 
 
@@ -98,7 +101,10 @@ export default function Garden() {
   }
 
   const updatePlant = (id) => {
-    setCurrentId(id)
+    setCurrentId(id);
+    if(currentTool === "erase" || currentTool === "select"){
+      setCurrentTool("paint");
+    }
   }
 
   const getColor = (id) => {
@@ -180,6 +186,7 @@ export default function Garden() {
   }
 
   const mouseEnterCell = (x, y) => {
+    // console.log(x,y)
     if (isMouseDown && currentTool === "paint") {
       updateGrid(currentId, x, y);
     } else if (isMouseDown && currentTool === "erase") {
@@ -298,26 +305,100 @@ export default function Garden() {
     setExperiment(experiment === "paint" ? "plant" : "paint")
   }
 
+  const getNECornerCoords = () => {
+    const x0 = (selectX0 < selectX1) ? selectX0 : selectX1;
+    const y0 = (selectY0 < selectY1) ? selectY0 : selectY1;
+
+    const x1 = (selectX0 >= selectX1) ? selectX0 : selectX1;
+    const y1 = (selectY0 >= selectY1) ? selectY0 : selectY1;
+
+    return {
+      x: x1,
+      y: y0
+    };
+  }
+
   return <>
 
-    <div>
+    {/* <div>
     <label className={styles.switch}>
       <input  type="checkbox" onChange={toggleExperiment}/>
       <span className={styles.slider}></span>
     </label>
-    </div>
+    </div> */}
 
-    <Link href="/garden/palette-chooser">
-    <FontAwesomeIcon className={styles.addButton} icon={faCirclePlus} />
-    </Link>
+    {
+      (selectionActive() && !isMouseDown) && <div 
+
+      onClick={clearSelection}
+
+      style={{
+        top: "calc(" + (getNECornerCoords()['y']) + "* 11.25vw + 100px + 5vw)",
+        left: "calc(" + (getNECornerCoords()['x']) + " * 11.25vw + 5vw + 11.25vw - 15px)",
+      }}
+      className={styles.deselectBtn}>
+        <FontAwesomeIcon icon={faXmarkCircle}/>
+      </div>
+    }
+
+
     <div className={styles.pageContainer}>
 
-      <div className={styles.gridContainer}
-        onMouseDown={() => setIsMouseDown(true)}
-        onMouseUp={() => setIsMouseDown(false)}
+      <div id="grid" style={{touchAction: 'none'}} className={styles.gridContainer}
+
+          
+        
+
+        onPointerDown={e => {
+          setIsMouseDown(true);
+
+          const elems = document.elementsFromPoint(e.clientX, e.clientY);
+          const cell = elems.find(e => e.id.startsWith("cell-"));
+          if(cell){
+            const x = parseInt(cell.attributes['x'].value);
+            const y = parseInt(cell.attributes['y'].value);
+            cellMouseDown(x, y);
+            cellClick(x, y)
+
+          }
+          console.log("*PTR Down");
+        }}
+
+        onPointerMove={(e => {
+          if(isMouseDown){
+            const elems = document.elementsFromPoint(e.clientX, e.clientY);
+            const cell = elems.find(e => e.id.startsWith("cell-"));
+            if(cell){
+
+              const x = parseInt(cell.attributes['x'].value);
+              const y = parseInt(cell.attributes['y'].value);
+              
+              if(lastX !== x || lastY !== y){
+                setLastX(x);
+                setLastY(y);
+                mouseEnterCell(x, y);
+              }
+            }
+          }
+        })}
+
+        
+
+        onPointerUp={e => {
+          setIsMouseDown(false);
+          const elems = document.elementsFromPoint(e.clientX, e.clientY);
+          const cell = elems.find(e => e.id.startsWith("cell-"));
+          if(cell){
+            const x = parseInt(cell.attributes['x'].value);
+            const y = parseInt(cell.attributes['y'].value);
+            cellMouseUp(x, y)
+
+          }
+          console.log("*PTR UP");
+        }}
 
       >
-        <div className={styles.grid}>
+        <div  className={styles.grid}>
           {
             gardenGrid && gardenGrid.map((row, y) => {
 
@@ -325,14 +406,46 @@ export default function Garden() {
                 {
                   row.map((e, x) => {
                     return <div
-                      onMouseEnter={() => mouseEnterCell(x, y)}
-                      onMouseDown={() => cellMouseDown(x, y)}
+
+                      id={"cell-" + x + "-" + y}
+                      // onPointerOver={() => {
+                      //   if(isMouseDown)
+                      //     console.log("Enter ", x, y);
+                      //   // mouseEnterCell(x, y);
+                      // }}
+                      // onPointerDown={e => {
+                        
+                      //   console.log("Ptr Down: ", x, y);
+                      //   setIsMouseDown(true);
+                      //   // cellMouseDown(x, y);
+                      // }}
+
+                      // onGotPointerCapture={e => {
+                      //   // console.log(e)
+                      //   e.target.releasePointerCapture(e.pointerId);
+                      // }}
+
+                      // onLostPointerCapture={() => {
+                      //   console.log("Leave ", x, y);
+                      //   // mouseLeaveCell(x, y);
+                      // }}
+
+                      // onPointerUp={() => {
+                      //   setIsMouseDown(false);
+                      //     console.log("Ptr Up: " ,x, y);
+
+                      //   // cellMouseUp(x, y)
+                      
+                      // }}
+
                       onClick={() => cellClick(x, y)}
-                      onMouseUp={() => cellMouseUp(x, y)}
                       timestamp={timestamp}
+                      x={x}
+                      y={y}
                       style={
                         {
-                          backgroundColor: getColor(e)
+                          backgroundColor: getColor(e),
+
                         }
                       } className={styles.square + selectStyling(x, y) + " " + styles.gridIcon}>
 
@@ -359,10 +472,14 @@ export default function Garden() {
           (selectionActive() && currentTool !== "select") ?
             <div
               onClick={() => updateTool("select")}
+              style={{
+                fontSize: "1.3rem",
+                textAlign: "center",
+              }}
               className={styles.tool + toolStyling("select")}>
               <FontAwesomeIcon className={styles.toolIcon} icon={faXmark} />
 
-          Select
+          Deselect
         </div>
             :
             <div
@@ -404,6 +521,10 @@ export default function Garden() {
       <div className={styles.paletteOuterContainer}>
         <div className={styles.paletteInnerContainer}>
 
+        <Link href="/garden/palette-chooser">
+      <FontAwesomeIcon className={styles.addButton} icon={faPalette} />
+      </Link>
+
         {(!palette || palette.length === 0) && <p className={styles.nopalettewarning}>
           You don't have any plants in your {getExperimentData("paletteLabel")}. You can add plants with the (+) button.
           </p>}
@@ -420,7 +541,8 @@ export default function Garden() {
               onClick={() => updatePlant(id)}
               
               className={styles.palettePlant + " " +
-              (id === currentId ? styles.activePlant : "")}>
+              ((id === currentId &&
+              (currentTool === "fill" || currentTool === "paint")) ? styles.activePlant : "")}>
 
                 <CustomIcon className={styles.paletteIcon} 
                 

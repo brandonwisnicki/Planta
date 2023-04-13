@@ -1,5 +1,12 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+function compareStrings(a, b) {
+  // Assuming you want case-insensitive comparison
+  a = a.toLowerCase();
+  b = b.toLowerCase();
+
+  return (a < b) ? -1 : (a > b) ? 1 : 0;
+}
 
 export default function handler(req, res) {
 
@@ -63,8 +70,6 @@ export default function handler(req, res) {
       color: "#0000FF"
     }
   ]
-
-  
 
   res.status(200).json(data)
 }
