@@ -6,11 +6,10 @@ import Link from "next/link";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { faSeedling, faPaintBrush, faObjectGroup, faFillDrip, faEraser, faXmark, faCirclePlus, faXmarkCircle, faPalette } from "@fortawesome/free-solid-svg-icons";
+import { faSeedling, faPaintBrush, faObjectGroup, faFillDrip, faEraser, faXmark, faCirclePlus, faXmarkCircle, faPalette, faArrowLeft, faChevronCircleLeft, faChevronLeft, faChevronUp, faChevronRight, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import {useLocalStorage} from '../hooks/useLocalStorage';
 
 import CustomIcon from "../components/customicon";
-import { faDiceD20 } from '@fortawesome/free-solid-svg-icons';
 import { faDiceSix } from '@fortawesome/free-solid-svg-icons';
 import { faPersonDigging } from '@fortawesome/free-solid-svg-icons';
 
@@ -24,7 +23,34 @@ export default function Garden() {
 
   const [palette, setPalette] = useLocalStorage("palette", [1,2,3]);
 
-  const [gardenGrid, setGardenGrid] = useLocalStorage("grid", [
+  const [entireGarden, setEntireGarden] = useLocalStorage("entireGarden", [
+    [
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0]
+    ],
+
+  ]);
+
+  const [idLayout, setIdLayout] = useLocalStorage("gardenId", [
+    [-1, -1, -1, -1, -1],
+    [-1, -1, -1, -1,  -1],
+    [-1, -1, 0, -1,  -1],
+    [-1, -1, -1, -1,  -1],
+    [-1, -1, -1, -1,  -1],
+  ])
+
+  const [currentXMap, setXMap] = useLocalStorage("currentXMap", 2);
+  const [currentYMap, setYMap] = useLocalStorage("currentYMap", 2);
+
+  const [mapLoaded, setMapLoaded] = useState(false);
+
+  const [gardenGrid, setGardenGrid] = useState([
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -64,10 +90,25 @@ export default function Garden() {
 
     fetchData();
 
+
+
+
   }, [])
 
+  useEffect(() => {
 
-  
+    if(!mapLoaded && currentXMap && currentYMap && idLayout && entireGarden){
+      
+      setGardenGrid(entireGarden[idLayout[currentYMap][currentXMap]]);
+
+      
+      setMapLoaded(true)
+    }
+
+
+  }, [currentXMap, currentYMap, idLayout, entireGarden])
+
+
 
 
   const getExperimentData = (element) => {
@@ -142,6 +183,7 @@ export default function Garden() {
 
       tempGrid = floodFill(x, y, tempGrid[y][x], currentId, tempGrid, selectionActive());
       setGardenGrid(tempGrid);
+      updateMap(tempGrid);
       setTimestamp(new Date());
     }
 
@@ -186,7 +228,7 @@ export default function Garden() {
   }
 
   const mouseEnterCell = (x, y) => {
-    // console.log(x,y)
+
     if (isMouseDown && currentTool === "paint") {
       updateGrid(currentId, x, y);
     } else if (isMouseDown && currentTool === "erase") {
@@ -208,12 +250,92 @@ export default function Garden() {
     }
   }
 
+  const updateMap = (updated) => {
+    const currLayoutId = idLayout[currentYMap][currentXMap];
+
+    const updatedMap = entireGarden.map((div, idx) => {
+      if(idx === currLayoutId){
+        return updated;
+      } else {
+        return div;
+      }
+    })
+    setEntireGarden(updatedMap);
+  }
+
+  const moveMap = (dir) => {
+    let newXMap = currentXMap
+    let newYMap = currentYMap;
+    
+    switch(dir){
+      case "up":
+        newYMap = Math.max(currentYMap - 1, 0);
+        setYMap(newYMap);
+        break;
+      case "down":
+        newYMap = Math.min(currentYMap + 1, idLayout.length-1);
+        setYMap(newYMap);
+        break;
+      case "left":
+        newXMap = Math.max(currentXMap - 1, 0);
+        setXMap(newXMap);
+        break;
+      case "right":
+        newXMap = Math.min(currentXMap + 1, idLayout[0].length-1);
+        setXMap(newXMap);
+        break;
+      default:
+        return;
+    }
+
+      let newId = idLayout[newYMap][newXMap];
+      if(newId === -1){
+      const gLength = entireGarden.length;
+      setEntireGarden(prevGarden => {
+        return [...prevGarden,
+          [[0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0]]]
+        })
+        const newIdLayout = idLayout.map((row, y) => {
+          return row.map((id, x) => {
+            if(x === newXMap && y === newYMap){
+              return gLength;
+            } else {
+              return id;
+            }
+          });
+        })
+
+        setIdLayout(newIdLayout)
+        setGardenGrid([
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0]])
+      } else {
+        setGardenGrid(entireGarden[newId]);
+      }
+      
+    
+    
+    
+  }
 
   const updateGrid = (id, x, y) => {
-
+    
     const x0 = (selectX0 < selectX1) ? selectX0 : selectX1;
     const y0 = (selectY0 < selectY1) ? selectY0 : selectY1;
-
+    
     const x1 = (selectX0 >= selectX1) ? selectX0 : selectX1;
     const y1 = (selectY0 >= selectY1) ? selectY0 : selectY1;
 
@@ -242,6 +364,9 @@ export default function Garden() {
     })
 
     setGardenGrid(updated);
+    updateMap(updated);
+
+
   }
 
 
@@ -326,6 +451,14 @@ export default function Garden() {
       <span className={styles.slider}></span>
     </label>
     </div> */}
+    
+    {/* <div style={{
+      position: 'absolute',
+      zIndex: 100000
+
+    }}>
+      {currentXMap}, {currentYMap}, {mapLoaded}
+    </div> */}
 
     {
       (selectionActive() && !isMouseDown) && <div 
@@ -344,6 +477,8 @@ export default function Garden() {
 
     <div className={styles.pageContainer}>
 
+
+
       <div id="grid" style={{touchAction: 'none'}} className={styles.gridContainer}
 
           
@@ -361,7 +496,6 @@ export default function Garden() {
             cellClick(x, y)
 
           }
-          console.log("*PTR Down");
         }}
 
         onPointerMove={(e => {
@@ -394,58 +528,74 @@ export default function Garden() {
             cellMouseUp(x, y)
 
           }
-          console.log("*PTR UP");
         }}
 
       >
+
+{idLayout && <>
+
+{currentXMap > 0 && <div className={styles.mapDirectionalButtonX}
+      onClick={() => moveMap("left")}
+      style={{
+        left: '.3rem'
+      }}
+      >
+        <FontAwesomeIcon icon={faChevronLeft} />
+      </div>
+    }
+      {currentYMap > 0 && <div className={styles.mapDirectionalButtonY}
+            onClick={() => moveMap("up")}
+            
+      style={{
+        top: '.2rem'
+      }}
+      >
+        <FontAwesomeIcon style={{margin: '-2px', paddingTop: '1px'}} icon={faChevronUp} />
+      </div>}
+
+      {currentXMap < idLayout[0].length-1 && <div className={styles.mapDirectionalButtonX}
+            onClick={() => moveMap("right")}
+            
+            style={{
+              right: '.3rem'
+            }}
+            >
+        <FontAwesomeIcon icon={faChevronRight} />
+      </div>}
+
+      {currentYMap < idLayout.length-1 && <div className={styles.mapDirectionalButtonY}
+            onClick={() => moveMap("down")}
+            
+            style={{
+        bottom: '.2rem'
+      }}
+      >
+        <FontAwesomeIcon 
+        style={{margin: '-2px', paddingTop: '1px'}} 
+        icon={faChevronDown} />
+      </div>}
+
+      </>}
         <div  className={styles.grid}>
           {
             gardenGrid && gardenGrid.map((row, y) => {
-
+              
               return <>
                 {
                   row.map((e, x) => {
                     return <div
-
-                      id={"cell-" + x + "-" + y}
-                      // onPointerOver={() => {
-                      //   if(isMouseDown)
-                      //     console.log("Enter ", x, y);
-                      //   // mouseEnterCell(x, y);
-                      // }}
-                      // onPointerDown={e => {
-                        
-                      //   console.log("Ptr Down: ", x, y);
-                      //   setIsMouseDown(true);
-                      //   // cellMouseDown(x, y);
-                      // }}
-
-                      // onGotPointerCapture={e => {
-                      //   // console.log(e)
-                      //   e.target.releasePointerCapture(e.pointerId);
-                      // }}
-
-                      // onLostPointerCapture={() => {
-                      //   console.log("Leave ", x, y);
-                      //   // mouseLeaveCell(x, y);
-                      // }}
-
-                      // onPointerUp={() => {
-                      //   setIsMouseDown(false);
-                      //     console.log("Ptr Up: " ,x, y);
-
-                      //   // cellMouseUp(x, y)
-                      
-                      // }}
-
-                      onClick={() => cellClick(x, y)}
-                      timestamp={timestamp}
+                    
+                    id={"cell-" + x + "-" + y}
+                    
+                    
+                    onClick={() => cellClick(x, y)}
+                    timestamp={timestamp}
                       x={x}
                       y={y}
                       style={
                         {
                           backgroundColor: getColor(e),
-
+                          
                         }
                       } className={styles.square + selectStyling(x, y) + " " + styles.gridIcon}>
 

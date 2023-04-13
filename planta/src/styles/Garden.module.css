@@ -26,6 +26,8 @@
     -ms-user-select: none;
     user-select: none;
     padding: 5vw;
+    position: relative;
+
 }
 
 .square {
@@ -244,4 +246,38 @@ input:checked + .slider:before {
     -webkit-transform: translateX(13px);
     -ms-transform: translateX(13px);
     transform: translateX(13px);
+}
+
+
+.mapDirectionalButtonX {
+    font-size: 1rem;
+    position: absolute;
+    z-index: 99;
+    cursor: pointer;
+    height: 90vw;
+    background-color: #d3e8c8;
+    display: flex;
+    justify-content: center;
+
+    flex-direction: column;   
+    border-radius: 10px;
+}
+
+.mapDirectionalButtonY {
+    font-size: 1rem;
+    position: absolute;
+    z-index: 99;
+    cursor: pointer;
+    width: 90vw;
+    background-color: #d3e8c8;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;   
+    border-radius: 10px;
+    
+}
+
+.mapDirectionalButtonX:hover, .mapDirectionalButtonY:hover {
+    background-color: #90bf7a;
+
 }

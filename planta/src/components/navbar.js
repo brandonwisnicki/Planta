@@ -19,8 +19,8 @@ export default function NavBar() {
         } else  if(router.pathname.includes("garden")){
             setActivePage("garden")
 
-        } else  if(router.pathname.includes("learn")){
-            setActivePage("learn")
+        } else  if(router.pathname.includes("map")){
+            setActivePage("map")
         }
 
         setHideNav(router.pathname.includes("tutorial"))
@@ -47,9 +47,9 @@ export default function NavBar() {
               </div>
       {!hideNav && <div className={styles.navLinks}>
           <Link href="/todo" className={activePage === "todo" ? styles.active : null}>To Do</Link>
-          <Link href="/garden" className={activePage === "garden" ? styles.active : null}>My Garden</Link>
+          <Link href="/garden" className={activePage === "garden" ? styles.active : null}>Edit Garden</Link>
 
-          <Link href="/learn" className={activePage === "learn" ? styles.active : null}>Learn</Link>
+          <Link href="/map" className={activePage === "map" ? styles.active : null}>Map</Link>
       </div>}
   </div> 
     </>

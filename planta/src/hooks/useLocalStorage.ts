@@ -13,7 +13,7 @@ export const useLocalStorage = <T>(key: string, initialValue: T) => {
   useEffect(() => {
     const value = window.localStorage.getItem(key);
 
-    if (value) {
+    if (value !== null && value !== undefined) {
       try {
         const parsed = JSON.parse(value) as T;
         setStoredValue(parsed);
@@ -27,12 +27,13 @@ export const useLocalStorage = <T>(key: string, initialValue: T) => {
   }, []);
 
   useEffect(() => {
-    if (storedValue) {
+    if (storedValue !== null && storedValue !== undefined) {
       setValue(storedValue);
     }
   }, [storedValue, timestamp]);
 
   const setValueAndTimestamp = (value:T) => {
+
     setStoredValue(value);
     setTimestamp(new Date());
   }
