@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 import styles from "@/styles/Map.module.css"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 export default function Page() {
 
   const colors = ['#FF0000', '#00FF00', '#0000FF'];
   const [plants, setPlants] = useState(null);
-
+  const [currentXMap, setXMap] = useLocalStorage("currentXMap", 2);
+  const [currentYMap, setYMap] = useLocalStorage("currentYMap", 2);
 
   const [entireGarden, setEntireGarden] = useLocalStorage("entireGarden", [
     [
@@ -33,9 +37,24 @@ export default function Page() {
 
   const [key, setKey] = useState({});
 
-  
+  let mapClick = (e) => {
+    // console.log(e.target.getBoundingClientRect());
+    let y = (e.clientY - e.target.getBoundingClientRect().top) / e.target.getBoundingClientRect().height;
+    let x = (e.clientX - e.target.getBoundingClientRect().left) / e.target.getBoundingClientRect().width;
+    x*=5;
+    y*=5;
+    x = Math.floor(x);
+    y = Math.floor(y);
+
+    if(idLayout[y][x] !== -1){
+      setXMap(x);
+      setYMap(y);
+    }
+  }
+
+
   useEffect(() => {
-   
+
     const fetchData = async () => {
       const res = await fetch("/api/data");
       const data = await res.json();
@@ -60,7 +79,7 @@ export default function Page() {
 
     let setRect = (x, y, color) => {
       ctx.fillStyle = color;
-      ctx.fillRect(x * unit, y  * unit, unit, unit);
+      ctx.fillRect(x * unit, y  * unit, unit+.5, unit+.5);
     }
     const plantMap = {};
 
@@ -96,27 +115,36 @@ export default function Page() {
           }
         }
         
-        ctx.strokeStyle = "#ffffff"
+        ctx.strokeStyle = "#e9e9e9"
         ctx.strokeRect(sectionX * unit*sectionWidth, sectionY * unit*sectionHeight, unit*sectionWidth, unit*sectionHeight)
+
+        ctx.strokeStyle = "#00aaff"
+        ctx.strokeRect(currentXMap * unit*sectionWidth, currentYMap * unit*sectionHeight, unit*sectionWidth, unit*sectionHeight)
 
       }
     }
   }
   setKey(plantMap);
-  }, [plants, entireGarden, idLayout]);
+  }, [plants, entireGarden, idLayout, currentXMap, currentYMap]);
   
-    return <> <h1 style={{
-      textAlign: 'center',
-      margin: 0
-    }}>Satellite View</h1>
-
+    return <> 
+<div className={styles.pageCtner}>
       <canvas
+          onClick={e=>mapClick(e)}
           id="map"
           
           style={{ border: "2px solid #d3d3d3" }}
         >
           Your browser does not support the HTML canvas tag.
         </canvas>
+
+      <div className={styles.ctrlContainer}>
+        <h3>Current Section: ({currentXMap}, {currentYMap})</h3>
+        <Link href="/garden" className={styles.goToSelectionBtn}>Go to Selection
+        <FontAwesomeIcon icon={faArrowRight}/></Link>
+
+        
+      </div>
 
       <div className={styles.keyOuterContainer}>
         <div className={styles.keyInnerContainer}>
@@ -137,6 +165,7 @@ export default function Page() {
         }
         </ul>
         </div>
+      </div>
       </div>
       </>
   }

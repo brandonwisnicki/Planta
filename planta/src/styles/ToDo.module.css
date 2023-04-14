@@ -1,0 +1,135 @@
+.todoItem{ 
+
+    font-size: 1.4rem;
+
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+    
+    justify-content: space-between;
+}
+
+.ellipsisIcon{
+    color: #727272;
+    cursor: pointer;
+}
+
+.repeatIcon{
+    align-self: center;
+    padding-right: 1rem;
+    font-size: 1.2rem;
+}
+
+.innerTodo{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 80% ;
+    display: block;
+
+}
+
+.todoItem input {
+    min-width: 1.5rem;
+    height: 1.5rem;
+}
+
+.day{
+    font-size: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+.sunInfo{
+    font-size: 1.25rem;
+    display: flex;
+    flex-direction: row;
+    padding-left: 1rem;
+    justify-content: space-between;
+}
+
+.sunInfoContainer{
+    justify-self: flex-end ;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.plantIcon {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    max-height: 2rem;
+    max-width: 2rem;
+    margin-top: 0.25rem;
+    margin-left: 0.5rem;
+}
+
+
+.plant{
+    display: flex;
+    flex-direction: row;
+
+
+    font-size: 2rem;
+    margin: 0;
+    padding: 0;
+}
+.sunInfo svg {
+    font-size: 1.5rem;
+    padding-right: .25rem;
+}
+
+.dayHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.toDoContainer{
+    margin: 1rem;
+    margin-top: 0rem;
+}
+
+.list{
+    padding-left: 1.5rem;
+    
+}
+
+.viewToggleContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    padding-top: 0.5rem;
+    padding-right: 0.5rem;
+  
+}
+
+.viewToggle{
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-between; */
+    align-items: center;
+    /* margin-bottom: 1rem; */
+    /* width: 6rem; */
+    font-size: 1.1rem;
+}
+
+.viewToggleBtn{
+
+    cursor: pointer;
+    padding: 0.3rem;
+    padding-top: .1rem;
+    padding-bottom: .1rem;
+    border: #90bf7a 2px solid;
+    
+}
+
+.viewToggleLabel{
+    padding-right: .5rem;
+}
