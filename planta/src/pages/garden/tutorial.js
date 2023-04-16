@@ -8,8 +8,10 @@ import { faChevronLeft, faInfoCircle, faCirclePlus, faXmarkCircle, faMagnifyingG
 
 import {useLocalStorage} from '../../hooks/useLocalStorage';
 
+import { useSwipeable } from 'react-swipeable';
 
 export default function Tutorial () {
+
 
     const [currentSlide, setSlide] = useState(0);
 
@@ -60,12 +62,22 @@ export default function Tutorial () {
 
 
     const advance = () => {
-        setSlide(prev => prev+1);
+        if(currentSlide < slides.length-1){
+            setSlide(prev => prev+1);
+        }
     }
 
     const back = () => {
-        setSlide(prev => prev-1);
+        if(currentSlide > 0){
+            setSlide(prev => prev-1);
+        }
     }
+
+    
+    const handlers = useSwipeable({
+        onSwipedLeft: advance,
+        onSwipedRight: back
+      });
 
     return <>
 
@@ -73,7 +85,7 @@ export default function Tutorial () {
         <h1> Welcome to your Garden!</h1>
         <p>Let's get you started</p>
     </div>
-    <div className ={styles.tutorialBody}>
+    <div className ={styles.tutorialBody} {...handlers}>
 
     <img 
     className={styles.tutorialImage}
@@ -96,7 +108,6 @@ export default function Tutorial () {
         Scratch
     </Link>
 </div>}
-    </div>
     <div className={styles.footerContainer}>
     <div className={styles.footerInnerContainer}>
 
@@ -124,5 +135,6 @@ icon={faChevronLeft}/>
     </div>
 
         </div>
+    </div>
     </>
 }

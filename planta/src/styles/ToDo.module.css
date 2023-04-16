@@ -7,6 +7,11 @@
     margin-top: 1rem;
     
     justify-content: space-between;
+    transition: margin-left 0.5s;
+}
+
+.todoItemClosed {
+    margin-left: -2rem;
 }
 
 .ellipsisIcon{
@@ -41,9 +46,11 @@
 }
 
 .sunInfo{
-    font-size: 1.25rem;
+    opacity: .6;
+    font-size: 1rem;
     display: flex;
     flex-direction: row;
+    align-items: center;
     padding-left: 1rem;
     justify-content: space-between;
 }
@@ -67,6 +74,48 @@
     margin-left: 0.5rem;
 }
 
+.contextMenu {
+    position: absolute;
+    display: flex;
+    overflow-x: hidden;
+    transition:  0.5s;
+    right: 0;
+    
+
+}
+
+.contextMenuOpen {
+    width: 200px;
+
+}
+
+.contextMenuClosed{
+    width: 0; 
+
+}
+
+.contextRemove {
+    background-color: #f75654;
+    display: flex;
+    align-items: center;
+    padding: 0.3rem;
+    cursor: pointer;
+
+}
+
+.contextEdit {
+    background-color: white;
+    color: black;
+    display: flex;
+    align-items: center;
+    padding: 0.3rem;
+    text-decoration: none;
+
+}
+
+.contextEdit svg, .contextRemove svg {
+    padding-right: 0.5rem;
+}
 
 .plant{
     display: flex;
@@ -93,17 +142,20 @@
 .toDoContainer{
     margin: 1rem;
     margin-top: 0rem;
+    
+    
 }
 
 .list{
     padding-left: 1.5rem;
+
     
 }
 
 .viewToggleContainer{
     display: flex;
     flex-direction: row;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
     padding-top: 0.5rem;
     padding-right: 0.5rem;
@@ -132,4 +184,22 @@
 
 .viewToggleLabel{
     padding-right: .5rem;
+}
+
+.addButton{
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 3.5rem;
+    cursor: pointer;
+    color: #729C5E;
+    /* border: #729C5E 3px solid; */
+    padding: 5px;
+    background-color: white;
+    border-radius: 100%;
+    
+}
+
+.spacer{
+    height: 15vh;
 }

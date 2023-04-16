@@ -2,20 +2,22 @@ import CustomIcon from "@/components/customicon";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useState, useEffect } from "react";
 import styles from '@/styles/ToDo.module.css'
-import { faEllipsis, faRepeat, faSun } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faEdit, faEllipsis, faPlusCircle, faRepeat, faSun, faTrash, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
+import { v4 as uuid } from 'uuid';
 
 export default function Page() {
 
 
     const dayNames = {
-        S: "Sunday",
+        Su: "Sunday",
         M: "Monday",
         T: "Tuesday",
         W: "Wednesday",
         R: "Thursday",
         F: "Friday",
-        S: "Saturday"
+        Sa: "Saturday"
     }
 
     const [plantData, setPlants] = useState([]);
@@ -43,29 +45,35 @@ export default function Page() {
 
     const [view, setView] = useLocalStorage("view", "day");
 
+    const [selected, setSelected] = useState(-1);
+
     const [tasks, setTasks] = useLocalStorage("tasks", [
       {
+        id: uuid(),
         name: "Water Roses",
         repeat: "weekly",
-        when: "S",
+        when: "Sa",
         affectedPlants: [1],
         completed: false,
       },
       {
+        id: uuid(),
         name: "Buy Garden Soil",
         repeat: false,
-        when: "S",
+        when: "Sa",
         affectedPlants: [],
         completed: false,
       },
       {
+        id: uuid(),
         name: "Fertilize Tulip Garden",
         repeat: false,
-        when: "S",
+        when: "Su",
         affectedPlants: [2],
         completed: false,
       },
       {
+        id: uuid(),
         name: "Water Tulips",
         repeat: "weekly",
         when: "M",
@@ -73,6 +81,7 @@ export default function Page() {
         completed: false,
       },
       {
+        id: uuid(),
         name: "Add Mulch to Rose Garden",
         repeat: false,
         when: "M",
@@ -80,6 +89,7 @@ export default function Page() {
         completed: false,
       },
       {
+        id: uuid(),
         name: "Weed and clear debris",
         repeat: "monthly",
         when: "T",
@@ -87,6 +97,7 @@ export default function Page() {
         completed: true,
       },
       {
+        id: uuid(),
         name: "Lay down new pathway",
         repeat: false,
         when: "T",
@@ -109,17 +120,21 @@ export default function Page() {
   
   
     }, [])
+
+    useEffect(() =>{ 
+      setSelected(-1);
+    }, [view])
   
 
     const getTasksByDay = () =>{
         const tasksByDay = {
-            S: [],
+            Su: [],
             M: [],
             T: [],
             W: [],
             R: [],
             F: [],
-            S: []
+            Sa: []
         }
 
         tasks.forEach(task => {
@@ -159,6 +174,25 @@ export default function Page() {
       setView(btn);
     }
 
+    const toggleToDo = (id) =>{
+      const newTasks = tasks.map(task => {
+        if(task.id === id){
+          task.completed = !task.completed;
+        }
+        return task;
+      })
+
+      setTasks(newTasks);
+    }
+
+    const removeTask = (id) => {
+      const newTasks = tasks.filter(task => task.id !== id);
+      setTasks(newTasks);
+      setSelected(-1);
+    }
+
+
+
 
     return <>
     <div className={styles.viewToggleContainer}>
@@ -188,7 +222,9 @@ export default function Page() {
 
     </div>
     </div>
-    {view === "day" && <div className={styles.toDoContainer}>
+    {view === "day" && <div 
+    onClick={() => setSelected(-1)}
+    className={styles.toDoContainer}>
     
     {
 
@@ -218,9 +254,10 @@ export default function Page() {
 
 
         { getTasksByDay()[day].map((task, index) => {
-          return <li className={styles.todoItem} key={task.name}>
+          return <><li className={styles.todoItem + " " + 
+          (selected === (index + day) && styles.todoItemClosed)} key={task.id}>
             <div className={styles.innerTodo} title={task.name}>
-              <input type="checkbox" defaultChecked={task.completed} name={task.name} id={task.name} />
+              <input type="checkbox" onClick={() => toggleToDo(task.id)} defaultChecked={task.completed} name={task.name} id={task.name} />
             {task.name}
 
             </div>
@@ -229,10 +266,33 @@ export default function Page() {
 
             {task.repeat && <FontAwesomeIcon title={`Repeats ${task.repeat}`} className={styles.repeatIcon} icon={faRepeat}/>}
 
-            <FontAwesomeIcon className={styles.ellipsisIcon} icon={faEllipsis}/>
+            {selected !== task.id && <FontAwesomeIcon onClick={e => {setSelected(task.id); e.stopPropagation()}} className={styles.ellipsisIcon} icon={faEllipsis}/>}          
           </div>
 
+          <div 
+          
+          className={styles.contextMenu + " " + 
+          (selected === task.id ? styles.contextMenuOpen : styles.contextMenuClosed)}> 
+
+        
+            
+            <Link href={`/todo/${task.id}`}className={styles.contextEdit}>
+            <FontAwesomeIcon icon={faEdit} />
+              Edit
+            </Link>
+
+            <div onClick={() => removeTask(task.id)} className={styles.contextRemove}>
+              <FontAwesomeIcon icon={faTrashAlt} />
+              Remove
+            </div>
+
+          </div>
+          
             </li>
+
+            
+</>
+            
         })}
         </ul>
           </>}
@@ -244,7 +304,10 @@ export default function Page() {
     
     </div>}
     
-    {view === "plant" && <div className={styles.toDoContainer}>
+    {view === "plant" && <div 
+    
+    onClick={() => setSelected(-1)}
+    className={styles.toDoContainer}>
     
     {
 
@@ -261,9 +324,9 @@ export default function Page() {
 
 
         { getTasksByPlant()[plantId].map((task, index) => {
-          return <li className={styles.todoItem} key={task.name}>
+          return <li className={styles.todoItem} key={task.id}>
             <div className={styles.innerTodo} title={task.name}>
-              <input type="checkbox" defaultChecked={task.completed} name={task.name} id={task.name} />
+              <input type="checkbox" onClick={() => toggleToDo(task.id)} defaultChecked={task.completed} name={task.name} id={task.name} />
             {task.name}
 
             </div>
@@ -272,7 +335,29 @@ export default function Page() {
 
             {task.repeat && <FontAwesomeIcon title={`Repeats ${task.repeat}`} className={styles.repeatIcon} icon={faRepeat}/>}
 
-            <FontAwesomeIcon className={styles.ellipsisIcon} icon={faEllipsis}/>
+            <FontAwesomeIcon onClick={e => {
+              setSelected(task.id); 
+              e.stopPropagation()
+            }} className={styles.ellipsisIcon} icon={faEllipsis}/>
+          </div>
+
+          <div 
+          
+          className={styles.contextMenu + " " + 
+          (selected === (task.id) ? styles.contextMenuOpen : styles.contextMenuClosed)}> 
+
+        
+            
+            <Link href={`/todo/${task.id}`}className={styles.contextEdit}>
+            <FontAwesomeIcon icon={faEdit} />
+              Edit
+            </Link>
+
+            <div onClick={() => removeTask(task.id)} className={styles.contextRemove}>
+              <FontAwesomeIcon icon={faTrashAlt} />
+              Remove
+            </div>
+
           </div>
 
             </li>
@@ -286,8 +371,15 @@ export default function Page() {
 
     
     </div>}
-    
 
+
+    <div className={styles.spacer}>
+
+    </div>
+    
+    <Link href="/todo/add" className={styles.addButton}>
+      <FontAwesomeIcon  icon={faPlusCircle} />
+      </Link>
 
     </>;
   }

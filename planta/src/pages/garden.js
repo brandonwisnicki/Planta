@@ -671,6 +671,8 @@ export default function Garden() {
       <div className={styles.paletteOuterContainer}>
         <div className={styles.paletteInnerContainer}>
 
+        <div className={styles.paletteList}>
+
         <Link href="/garden/palette-chooser">
       <FontAwesomeIcon className={styles.addButton} icon={faPalette} />
       </Link>
@@ -681,18 +683,18 @@ export default function Garden() {
 
           {
             palette && palette.map(id =>{
-
+              
               if(id < 1){
                 return <> </>
               }
-
-              return <div
+              
+              return <> <div
               
               onClick={() => updatePlant(id)}
               
               className={styles.palettePlant + " " +
               ((id === currentId &&
-              (currentTool === "fill" || currentTool === "paint")) ? styles.activePlant : "")}>
+                (currentTool === "fill" || currentTool === "paint")) ? styles.activePlant : "")}>
 
                 <CustomIcon className={styles.paletteIcon} 
                 
@@ -703,10 +705,17 @@ export default function Garden() {
                 {plants[id]?.name}
 
                 </div>
-
+                
+          </>
             })
           }
+
         </div>
+              <div className={styles.spacer}>
+                  
+                </div>
+
+          </div>
       </div>
     </div>
 

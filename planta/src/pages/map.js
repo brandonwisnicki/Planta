@@ -139,8 +139,8 @@ export default function Page() {
         </canvas>
 
       <div className={styles.ctrlContainer}>
-        <h3>Current Section: ({currentXMap}, {currentYMap})</h3>
-        <Link href="/garden" className={styles.goToSelectionBtn}>Go to Selection
+        <h3>Selected: ({currentXMap}, {currentYMap})</h3>
+        <Link href="/garden" className={styles.goToSelectionBtn}>Go to Selected
         <FontAwesomeIcon icon={faArrowRight}/></Link>
 
         

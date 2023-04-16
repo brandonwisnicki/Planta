@@ -1,3 +1,5 @@
+
+
 .header{
     background-color: #90BF7A;
     margin: 0;
@@ -7,6 +9,7 @@
 
 .header h1 {
     margin: 0;
+    font-size: 24px;
 }
 
 .header p {
@@ -16,16 +19,20 @@
 }
 
 
+
+
 .tutorialImage{
-    width: 90vw;
-    padding: 5vw;
+    width: 80vw;
+    height: 80vw;
+    padding: 5vw 10vw 5vw 10vw;
     background-color: white;
 }
 
 .tutorialCaption{
     text-align: center;
-    font-size: 24px;
+    font-size: 22px;
     padding: 2rem;
+    padding-top: 0.5rem;
     padding-bottom: 0rem;
 
 }
@@ -51,14 +58,14 @@
 
 }
 .footerContainer{
-    position: absolute;
-    width: 100%;
-    bottom: 0;
+    /* background-color: #90BF7A; */
+    /* width: 100%; */
+    /* bottom: 0; */
 }
 .footerInnerContainer {
     display: flex;
     justify-content: space-evenly;
-    
+    padding-top: 1rem;
     padding-bottom: 2rem;
 }
 
@@ -69,7 +76,7 @@
 
 .tutorialBody {
     background-color: #90BF7A;
-    height: calc(100vh - 152px);
+    /* height: calc(100vh ); */
     
 }
 

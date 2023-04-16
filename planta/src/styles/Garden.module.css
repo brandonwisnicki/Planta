@@ -104,6 +104,7 @@
     color: red;
     font-size: 1.75rem;
     cursor: pointer;
+    z-index: 9999;
 }
 
 .deselectBtn:hover {
@@ -153,16 +154,21 @@
     /* box-shadow: 0 0 0 3px #729C5E; */
 }
 
+.paletteList {
+    padding: .5rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
+
 .paletteInnerContainer{
     background-color: #FFFFFF;
     border-radius: 20px;
     margin: .75rem;
     flex-grow: 1;
     height: 10rem;
-    padding: .5rem;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+
     overflow-y: scroll;
     
     
@@ -280,4 +286,8 @@ input:checked + .slider:before {
 .mapDirectionalButtonX:hover, .mapDirectionalButtonY:hover {
     background-color: #90bf7a;
 
+}
+
+.spacer{
+    height: 7.5vh;
 }
