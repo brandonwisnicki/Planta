@@ -54,7 +54,7 @@ const router = useRouter();
 
   const [palette, setPalette] = useLocalStorage("palette", [1,2,3]);
 
-  const [gardenGrid, setGardenGrid] = useLocalStorage("grid", [
+  const [gardenGrid, setGardenGrid] = useLocalStorage("entireGarden", [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -65,11 +65,25 @@ const router = useRouter();
   [0, 0, 0, 0, 0, 0, 0, 0]]);
   const [currentId, setCurrentId] = useLocalStorage("currplant", 1);
 
+  const [idLayout, setIdLayout] = useLocalStorage("gardenId", [
+    [-1, -1, -1, -1, -1],
+    [-1, -1, -1, -1,  -1],
+    [-1, -1, 0, -1,  -1],
+    [-1, -1, -1, -1,  -1],
+    [-1, -1, -1, -1,  -1],
+  ])
+
 
 const selectTemplate = (t) => {
     setPalette(t.palette);
-    setGardenGrid(t.grid);
-    setCurrentId(t.palette[0]);
+    setGardenGrid([t.grid]);
+    setIdLayout([
+        [-1, -1, -1, -1, -1],
+        [-1, -1, -1, -1,  -1],
+        [-1, -1, 0, -1,  -1],
+        [-1, -1, -1, -1,  -1],
+        [-1, -1, -1, -1,  -1]]);
+    setCurrentId(0);
     router.push('/garden')
 }
 

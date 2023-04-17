@@ -86,7 +86,7 @@ export default function PaletteChooser() {
 
       {plants.map((p, idx) => {
           
-          if(idx < 1 || !p.name.toLowerCase().includes(searchTerm.toLowerCase())){
+          if(p.name === "Empty" || !p.name.toLowerCase().includes(searchTerm.toLowerCase())){
             return <></>
           }
 

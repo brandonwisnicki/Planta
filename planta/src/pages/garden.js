@@ -97,7 +97,7 @@ export default function Garden() {
 
   useEffect(() => {
 
-    if(!mapLoaded && currentXMap && currentYMap && idLayout && entireGarden){
+    if(!mapLoaded && currentXMap !== null && currentYMap !== null && idLayout && entireGarden){
       
       setGardenGrid(entireGarden[idLayout[currentYMap][currentXMap]]);
 
