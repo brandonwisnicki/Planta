@@ -239,12 +239,12 @@ export default function Page() {
         <div className={styles.sunInfoContainer}>
           <span className={styles.sunInfo}>
 
-          <CustomIcon icon={"Sunset"}/>
+          <CustomIcon icon={"Sunrise"}/>
             6:32am
           </span>
 
           <span className={styles.sunInfo}>
-          <CustomIcon icon={"Sunrise"}/>
+          <CustomIcon icon={"Sunset"}/>
 
             6:32pm
           </span>
